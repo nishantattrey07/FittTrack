@@ -12,27 +12,31 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
+debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          appBarTheme: const AppBarTheme(
-              color: Color(0xFFDB3022), foregroundColor: Color(0xFF222222)),
-          canvasColor: Colors.transparent,
-          fontFamily: 'Metropolis',
-          outlinedButtonTheme: OutlinedButtonThemeData(
-              style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all((const Color(0xFF222222))))),
-          primaryColor: const Color(0xFF222222),
-          scaffoldBackgroundColor: const Color(0xFFF9F9F9),
-          textButtonTheme: TextButtonThemeData(
-              style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all((const Color(0xFF222222))))),
-          textTheme: const TextTheme(
-              bodyLarge: TextStyle(color: Color(0xFF222222)),
-              )),
+        primarySwatch: Colors.blue,
+        canvasColor: const Color.fromARGB(255, 48, 47, 47),
+        fontFamily: 'Metropolis',
+        brightness: Brightness.dark,
+        inputDecorationTheme: InputDecorationTheme(
+          // Changes the border color when the TextField is selected
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.blue),
+          ),
+        ),
+        textSelectionTheme: TextSelectionThemeData(
+          // Changes the highlight color when the TextField is selected
+          selectionColor: Colors.blue,
+          cursorColor: Colors.blue,
+          selectionHandleColor: Colors.blue,
+        ),
+        focusColor: Colors.blue, // Changes the focus color
+        hoverColor: Colors.blue, // Changes the hover color
+      ),
       onGenerateRoute:
           AppRoutes.onGenerateRoute, // Use AppRoutes to generate routes
     );
   }
 }
+
+

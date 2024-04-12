@@ -5,7 +5,8 @@ import 'userscreen.dart';
 import 'InfoScreen.dart';
 import 'AddCalorie.dart';
 import 'AddFood.dart';
-import 'ProfilePage.dart'; // Import UserScreen widget
+import 'ProfilePage.dart'; 
+import 'Signup.dart';// Import UserScreen widget
 
 class AppRoutes {
   static const first = '/';
@@ -21,8 +22,8 @@ class AppRoutes {
     switch (settings.name) {
       case first:
         return MaterialPageRoute(builder: (_) => login());
-      // case second:
-      //   return MaterialPageRoute(builder: (_) => SecondScreen());
+      case second:
+        return MaterialPageRoute(builder: (_) => signup());
       case third:
         return MaterialPageRoute(builder: (_) => userscreen());
       case fourth:
@@ -34,7 +35,7 @@ class AppRoutes {
       case seventh:
         return MaterialPageRoute(builder: (_) => ProfilePage());
       default:
-        return MaterialPageRoute(builder: (_) => userscreen());
+        return MaterialPageRoute(builder: (_) => signup());
     }
   }
 }

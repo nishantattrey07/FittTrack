@@ -1,9 +1,11 @@
+// // Uri.parse(''),
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'app_routes.dart';
 import 'dart:convert';
-
+import 'Signup.dart';
 
 
 class login extends StatelessWidget {
@@ -25,18 +27,14 @@ class login extends StatelessWidget {
       );
 
       if (response.statusCode == 200) {
-        // If the server returns a 200 OK response, then parse the JSON.
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         String token = responseBody['token'];
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', token);
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login successful')),
         );
         Navigator.pushNamed(context, AppRoutes.third);
       } else {
-        // If the server returns an unsuccessful response code, then throw an exception.
         throw Exception('Failed to login');
       }
     } catch (e) {
@@ -45,9 +43,6 @@ class login extends StatelessWidget {
       );
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -60,39 +55,68 @@ class login extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(
-                labelText: 'Username',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Username',
+                ),
               ),
             ),
-            SizedBox(height: 16.0),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Password',
+                ),
               ),
-              obscureText: true,
             ),
             SizedBox(height: 16.0),
             ElevatedButton(
-              child: Text('Login'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+              ),
+              child: Text(
+                'Login',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               onPressed: () {
-                _login(_usernameController.text, _passwordController.text,context);
+                _login(
+                  _usernameController.text,
+                  _passwordController.text,
+                  context,
+                );
               },
             ),
             SizedBox(height: 16.0),
             TextButton(
-              child: Text('Forgot password?'),
+              child: Text(
+                'Forgot password?',
+                style: TextStyle(
+                  color: Colors.blue,
+                ),
+              ),
               onPressed: () {
-                // Navigate to forgot password screen
+                
               },
             ),
             SizedBox(height: 16.0),
             TextButton(
-              child: Text('Sign Up'),
+              child: Text(
+                'Sign Up',
+                style: TextStyle(
+                  color: Colors.blue,
+                ),
+              ),
               onPressed: () {
-                // Navigate to sign up screen
+                Navigator.pushNamed(context, AppRoutes.second);
               },
             ),
           ],
