@@ -1,7 +1,9 @@
 import 'package:fitttrack/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 class signup extends StatelessWidget {
   signup({Key? key}) : super(key: key);
 
@@ -14,6 +16,64 @@ class signup extends StatelessWidget {
   final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _emailFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
+
+
+Future<void> signUp(BuildContext context) async {
+    try {
+      final url = 'https://fitttrack.azurewebsites.net/user/signup';
+
+      final body = jsonEncode({
+        'name': _nameController.text,
+        'username': _usernameController.text,
+        'email': _emailController.text,
+        'password': _passwordController.text,
+      });
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/json"},
+        body: body,
+      );
+
+      if (response.statusCode == 201) {
+        final responseBody = jsonDecode(response.body);
+        final token = responseBody['token'];
+
+        // Store the token using SharedPreferences
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
+
+        // Navigate to the user screen.
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Signup successful')),
+        );
+        Navigator.pushNamed(context, AppRoutes.third);
+      } else {
+        // Handle the error here.
+        print('Sign up failed with status code: ${response.statusCode}.');
+
+        // Show a Snackbar with the error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                'Sign up failed with status code: ${response.statusCode}.'),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (e) {
+      // Handle the exception here.
+      print('An error occurred: $e');
+
+      // Show a Snackbar with the error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('An error occurred: $e'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +206,7 @@ class signup extends StatelessWidget {
                             SizedBox(height: 1.0),
                             ElevatedButton(
                               onPressed: () {
-                                // Send data to API
+                                signUp(context);
                               },
                               child: Text('Sign Up',
                                   style: TextStyle(color: Colors.white)),
