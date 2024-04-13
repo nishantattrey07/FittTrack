@@ -32,7 +32,7 @@ class _UserScreenState extends State<userscreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Screen'),
+        title: const Text('FittTrack'),
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

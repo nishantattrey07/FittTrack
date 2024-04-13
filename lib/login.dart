@@ -31,9 +31,12 @@ class login extends StatelessWidget {
       if (response.statusCode == 200) {
         Map<String, dynamic> responseBody = jsonDecode(response.body);
         String token = responseBody['token'];
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', token);
 
-    
-        Navigator.pushNamed(context, AppRoutes.third);
+    String? savedToken = prefs.getString('token');
+        print('Saved token: $savedToken');
+        Navigator.pushNamed(context, AppRoutes.first);
       } else {
         throw Exception('Failed to login');
       }

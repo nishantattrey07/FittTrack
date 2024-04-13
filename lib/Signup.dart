@@ -42,36 +42,24 @@ Future<void> signUp(BuildContext context) async {
         // Store the token using SharedPreferences
         SharedPreferences prefs = await SharedPreferences.getInstance();
         await prefs.setString('token', token);
+        String? savedToken = prefs.getString('token');
+        print('Saved token: $savedToken');
 
         // Navigate to the user screen.
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Signup successful')),
-        );
-        Navigator.pushNamed(context, AppRoutes.third);
+        Navigator.pushNamed(context, AppRoutes.first);
       } else {
         // Handle the error here.
         print('Sign up failed with status code: ${response.statusCode}.');
 
         // Show a Snackbar with the error message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-                'Sign up failed with status code: ${response.statusCode}.'),
-            duration: Duration(seconds: 2),
-          ),
-        );
+       
       }
     } catch (e) {
       // Handle the exception here.
       print('An error occurred: $e');
 
       // Show a Snackbar with the error message
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred: $e'),
-          duration: Duration(seconds: 2),
-        ),
-      );
+      
     }
   }
 
@@ -243,7 +231,7 @@ Future<void> signUp(BuildContext context) async {
                                 GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(
-                                        context, AppRoutes.first);
+                                        context, AppRoutes.third);
                                   },
                                   child: Text(
                                     ' Log In',
